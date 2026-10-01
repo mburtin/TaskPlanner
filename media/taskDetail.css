@@ -1,0 +1,200 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  padding: 0 24px;
+  box-sizing: border-box;
+  color: var(--vscode-foreground);
+  background: var(--vscode-editor-background);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+}
+
+main {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 800px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.6em;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* The native date picker follows the dark VS Code theme. */
+body.vscode-dark,
+body.vscode-high-contrast:not(.vscode-high-contrast-light) {
+  color-scheme: dark;
+}
+
+.due-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: var(--vscode-descriptionForeground);
+}
+
+/* The field blends into the page; its border only shows on hover or focus. */
+#due {
+  padding: 2px 4px;
+  font: inherit;
+  color: var(--vscode-foreground);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+
+#due:hover:not(:disabled) {
+  border-color: var(--vscode-input-border, var(--vscode-focusBorder));
+}
+
+#due:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+  background: var(--vscode-input-background);
+}
+
+#due.overdue {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.due-overdue {
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.due-overdue[hidden] {
+  display: none;
+}
+
+.notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.notes-header h2 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.edit-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font: inherit;
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+}
+
+.edit-button:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+}
+
+.edit-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
+.icon-done,
+main.editing .icon-edit {
+  display: none;
+}
+
+main.editing .icon-done {
+  display: inline;
+}
+
+/*
+ * The read-only notes and the text area take up exactly the same space:
+ * the border appears around the text without moving it. The negative margin
+ * aligns the text with the title.
+ */
+.notes-view,
+textarea {
+  box-sizing: border-box;
+  width: calc(100% + 22px);
+  margin: 0 -11px;
+  padding: 8px 10px;
+  font: inherit;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  border-radius: 2px;
+}
+
+.notes-view {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.notes-view:empty::before {
+  content: attr(data-placeholder);
+  font-style: italic;
+  color: var(--vscode-descriptionForeground);
+}
+
+textarea {
+  display: none;
+  flex: 1;
+  min-height: 160px;
+  resize: none;
+  color: var(--vscode-input-foreground);
+  background: var(--vscode-input-background);
+  border-color: var(--vscode-input-border, var(--vscode-focusBorder));
+}
+
+main.editing textarea {
+  display: block;
+}
+
+main.editing .notes-view {
+  display: none;
+}
+
+textarea:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+
+textarea::placeholder {
+  color: var(--vscode-input-placeholderForeground);
+}
+
+.save-status {
+  min-height: 1.4em;
+  margin: 0;
+  font-size: 0.9em;
+  color: var(--vscode-descriptionForeground);
+}
+
+.save-status.error {
+  color: var(--vscode-errorForeground);
+}

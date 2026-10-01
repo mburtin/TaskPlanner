@@ -1,0 +1,258 @@
+{
+  "name": "taskplanner",
+  "displayName": "Task Planner",
+  "description": "Per-project task manager, right in the sidebar.",
+  "version": "1.0.0",
+  "publisher": "mburtin",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mburtin/TaskPlanner.git"
+  },
+  "engines": {
+    "vscode": "^1.95.0",
+    "positron": "^2026.09.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "todo",
+    "tasks",
+    "planner",
+    "project",
+    "positron"
+  ],
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "taskPlanner",
+          "title": "Task Planner",
+          "icon": "media/tasks.svg"
+        }
+      ]
+    },
+    "views": {
+      "taskPlanner": [
+        {
+          "id": "taskPlanner.tasks",
+          "name": "Tasks"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "taskPlanner.tasks",
+        "contents": "Open a folder to manage its tasks.\n[Open Folder](command:vscode.openFolder)",
+        "when": "workbenchState == empty"
+      },
+      {
+        "view": "taskPlanner.tasks",
+        "contents": "No tasks for this project yet.\n[Add Task](command:taskPlanner.addTask)\n[New Section](command:taskPlanner.addSection)",
+        "when": "workbenchState != empty"
+      }
+    ],
+    "commands": [
+      {
+        "command": "taskPlanner.addTask",
+        "title": "Add Task",
+        "category": "Task Planner",
+        "icon": "$(add)"
+      },
+      {
+        "command": "taskPlanner.addSection",
+        "title": "New Section",
+        "category": "Task Planner",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "taskPlanner.rename",
+        "title": "Rename",
+        "category": "Task Planner"
+      },
+      {
+        "command": "taskPlanner.delete",
+        "title": "Delete",
+        "category": "Task Planner",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "taskPlanner.markTodo",
+        "title": "Mark as To Do",
+        "category": "Task Planner",
+        "icon": "$(debug-pause)"
+      },
+      {
+        "command": "taskPlanner.markDoing",
+        "title": "Mark as In Progress",
+        "category": "Task Planner",
+        "icon": "$(play)"
+      },
+      {
+        "command": "taskPlanner.markDone",
+        "title": "Mark as Done",
+        "category": "Task Planner",
+        "icon": "$(check)"
+      },
+      {
+        "command": "taskPlanner.clearCompleted",
+        "title": "Delete Completed Tasks",
+        "category": "Task Planner",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "taskPlanner.openStorageFile",
+        "title": "Open Tasks File",
+        "category": "Task Planner",
+        "icon": "$(json)"
+      },
+      {
+        "command": "taskPlanner.refresh",
+        "title": "Refresh",
+        "category": "Task Planner",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "taskPlanner.addTask",
+          "when": "view == taskPlanner.tasks && workbenchState != empty",
+          "group": "navigation@1"
+        },
+        {
+          "command": "taskPlanner.addSection",
+          "when": "view == taskPlanner.tasks && workbenchState != empty",
+          "group": "navigation@2"
+        },
+        {
+          "command": "taskPlanner.clearCompleted",
+          "when": "view == taskPlanner.tasks && workbenchState != empty",
+          "group": "1_tasks@1"
+        },
+        {
+          "command": "taskPlanner.refresh",
+          "when": "view == taskPlanner.tasks",
+          "group": "2_storage@1"
+        },
+        {
+          "command": "taskPlanner.openStorageFile",
+          "when": "view == taskPlanner.tasks",
+          "group": "2_storage@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "taskPlanner.addTask",
+          "when": "view == taskPlanner.tasks && viewItem =~ /^(project|section)$/",
+          "group": "inline@1"
+        },
+        {
+          "command": "taskPlanner.markTodo",
+          "when": "view == taskPlanner.tasks && viewItem == task-doing",
+          "group": "inline@1"
+        },
+        {
+          "command": "taskPlanner.delete",
+          "when": "view == taskPlanner.tasks && viewItem =~ /^task-/",
+          "group": "inline@9"
+        },
+        {
+          "command": "taskPlanner.addTask",
+          "when": "view == taskPlanner.tasks && viewItem =~ /^(project|section)$/",
+          "group": "1_edit@1"
+        },
+        {
+          "command": "taskPlanner.addSection",
+          "when": "view == taskPlanner.tasks && viewItem == project",
+          "group": "1_edit@2"
+        },
+        {
+          "command": "taskPlanner.rename",
+          "when": "view == taskPlanner.tasks && viewItem =~ /^(task-.*|section)$/",
+          "group": "1_edit@3"
+        },
+        {
+          "command": "taskPlanner.markTodo",
+          "when": "view == taskPlanner.tasks && viewItem =~ /^task-(doing|done)$/",
+          "group": "2_status@1"
+        },
+        {
+          "command": "taskPlanner.markDoing",
+          "when": "view == taskPlanner.tasks && viewItem =~ /^task-(todo|done)$/",
+          "group": "2_status@2"
+        },
+        {
+          "command": "taskPlanner.markDone",
+          "when": "view == taskPlanner.tasks && viewItem =~ /^task-(todo|doing)$/",
+          "group": "2_status@3"
+        },
+        {
+          "command": "taskPlanner.delete",
+          "when": "view == taskPlanner.tasks && viewItem =~ /^(task-.*|section)$/",
+          "group": "3_delete@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "taskPlanner.rename",
+          "when": "false"
+        },
+        {
+          "command": "taskPlanner.delete",
+          "when": "false"
+        },
+        {
+          "command": "taskPlanner.markTodo",
+          "when": "false"
+        },
+        {
+          "command": "taskPlanner.markDoing",
+          "when": "false"
+        },
+        {
+          "command": "taskPlanner.markDone",
+          "when": "false"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "taskPlanner.rename",
+        "key": "f2",
+        "when": "focusedView == taskPlanner.tasks"
+      },
+      {
+        "command": "taskPlanner.delete",
+        "key": "delete",
+        "mac": "cmd+backspace",
+        "when": "focusedView == taskPlanner.tasks"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "vscode-test",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.19.43",
+    "@types/vscode": "~1.95.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.0.0",
+    "mocha": "^12.0.3",
+    "typescript": "^5.9.3"
+  }
+}
